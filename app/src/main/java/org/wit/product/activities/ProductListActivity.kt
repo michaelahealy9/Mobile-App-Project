@@ -1,5 +1,6 @@
 package org.wit.product.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import org.wit.product.R
@@ -34,7 +35,8 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.item_add -> startActivityForResult<ProductActivity>(0)
+            R.id.item_add -> startActivityForResult<ProductActivity>(0)//item add moves to product activity
+            R.id.item_home -> startActivityForResult<HomeActivity>(0)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -43,5 +45,11 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
     }
     //we are passing the selected product to the activity and this is enabled by the parcelable mechanism we just turned on
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //recyclerView is a widget in activity_product_list.xml
+        recyclerView.adapter?.notifyDataSetChanged()
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }
 

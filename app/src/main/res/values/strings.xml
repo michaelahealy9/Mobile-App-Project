@@ -1,8 +1,18 @@
 <resources>
-    <string name="app_name">Product</string>
+    <string name="app_name">MichaelaHMakeup</string>
     <string name="button_AddProduct">Add Product</string>
     <string name="hint_productTitle">Product Title</string>
     <string name="hint_productDescription">Product Description</string>
     <string name="menu_addProduct">Add</string>
     <string name="menu_cancelProduct">Cancel</string>
+    <string name="enter_product_title">Please enter a Product Title</string>
+    <string name="save_product">Save Product</string>
+    <string name="button_addImage">Add Image</string>
+    <string name="select_product_image">Select Product Image</string>
+    <string name="change_product_image">Change Product Image</string>
+    <string name="home">Home</string>
+    <string name="product">Product</string>
+    <string name="contact">Contact</string>
+
+
 </resources>

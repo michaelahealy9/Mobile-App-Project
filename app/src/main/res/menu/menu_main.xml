@@ -7,4 +7,18 @@
             android:icon="@android:drawable/ic_menu_add"
             android:title="@string/menu_addProduct"
             app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/item_home"
+            android:title="@string/home"
+            app:showAsAction="never"/>  //never will always put a menu item in the overflow options menu
+//https://android.jlelse.eu/lessons-in-kotlin-the-toolbar-icons-and-reflection-79e77208367e
+    <item
+            android:id="@+id/item_product"
+            android:title="@string/product"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/item_contact"
+            android:title="@string/contact"
+            app:showAsAction="never"/>
 </menu>
