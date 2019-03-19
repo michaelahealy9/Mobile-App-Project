@@ -20,12 +20,14 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_list)
         app = application as MainApp
-        toolbarMain.title = title
-        setSupportActionBar(toolbarMain)
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ProductAdapter(app.products.findAll(),this)
+        //recyclerView.adapter = ProductAdapter(app.products.findAll(),this)
+        loadProducts()
+
+        toolbarMain.title = title
+        setSupportActionBar(toolbarMain)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -47,9 +49,17 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
     //we are passing the selected product to the activity and this is enabled by the parcelable mechanism we just turned on
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //recyclerView is a widget in activity_product_list.xml
-        recyclerView.adapter?.notifyDataSetChanged()
+        loadProducts()
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun loadProducts(){
+        showProducts(app.products.findAll())
+    }
+
+    fun showProducts(products:List<ProductModel>){
+        recyclerView.adapter = ProductAdapter(products,this)
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 

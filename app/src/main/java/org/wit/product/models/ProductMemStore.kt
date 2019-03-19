@@ -34,6 +34,10 @@ class ProductMemStore:ProductStore, AnkoLogger {
         }
     }
 
+    override fun delete(product:ProductModel){
+        products.remove(product)
+    }
+
     fun logAll() {
         products.forEach {info("${it}") }
     }

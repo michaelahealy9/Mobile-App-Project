@@ -1,4 +1,4 @@
-package org.wit.product.org.wit.product.helpers
+package org.wit.product.helpers
 
 import android.app.Activity
 import android.content.Context

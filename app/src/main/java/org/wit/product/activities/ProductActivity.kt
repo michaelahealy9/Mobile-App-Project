@@ -12,9 +12,9 @@ import org.jetbrains.anko.toast
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import org.wit.product.models.ProductModel
-import org.wit.product.org.wit.product.helpers.readImage
-import org.wit.product.org.wit.product.helpers.readImageFromPath
-import org.wit.product.org.wit.product.helpers.showImagePicker
+import org.wit.product.helpers.readImage
+import org.wit.product.helpers.readImageFromPath
+import org.wit.product.helpers.showImagePicker
 
 class ProductActivity : AppCompatActivity(), AnkoLogger {
 
@@ -34,7 +34,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             product = intent.extras.getParcelable<ProductModel>("product_edit")
             productTitle.setText(product.title)
             description.setText(product.description)
-            productImage.setImageBitmap(readImageFromPath(this,product.image))
+            productImage.setImageBitmap(readImageFromPath(this, product.image))
             if(product.image !=null){
                 chooseImage.setText(R.string.change_product_image)
             }
@@ -74,13 +74,18 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_product, menu)
+        if(edit && menu!==null)menu.getItem(0).setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
     //handle the event
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.item_cancel -> {
+            R.id.item_delete -> {
+                app.products.delete(product)
+                finish()
+            }
+            R.id.item_cancel->{
                 finish()
             }
         }
@@ -93,7 +98,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             IMAGE_REQUEST -> {
                 if (data != null) {
                     product.image = data.getData().toString()
-                    productImage.setImageBitmap(readImage(this,resultCode,data))
+                    productImage.setImageBitmap(readImage(this, resultCode, data))
                     chooseImage.setText(R.string.change_product_image)
                 }
                 if (intent.hasExtra("product_edit")) {

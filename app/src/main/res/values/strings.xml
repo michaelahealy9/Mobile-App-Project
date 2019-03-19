@@ -13,6 +13,7 @@
     <string name="home">Home</string>
     <string name="product">Product</string>
     <string name="contact">Contact</string>
+    <string name="menu_deleteProduct">Delete</string>
 
 
 </resources>

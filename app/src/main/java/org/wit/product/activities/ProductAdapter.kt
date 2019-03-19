@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.card_product.view.*
 import org.wit.product.R
 import org.wit.product.models.ProductModel
-import org.wit.product.org.wit.product.helpers.readImageFromPath
+import org.wit.product.helpers.readImageFromPath
 
 class ProductAdapter constructor(private var products: List<ProductModel>,
                                    private val listener: ProductListener) : RecyclerView.Adapter<ProductAdapter.MainHolder>() {
@@ -32,7 +32,12 @@ class ProductAdapter constructor(private var products: List<ProductModel>,
         fun bind(product: ProductModel,  listener : ProductListener) {
             itemView.productTitle.text = product.title
             itemView.description.text = product.description
-            itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context,product.image))
+            itemView.imageIcon.setImageBitmap(
+                readImageFromPath(
+                    itemView.context,
+                    product.image
+                )
+            )
             itemView.setOnClickListener { listener.onProductClick(product) }
         }
     }
