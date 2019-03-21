@@ -12,7 +12,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         button.setOnClickListener {
-            startActivity(Intent(this,ProductListActivity::class.java)) //
+            startActivity(Intent(this,ProductListActivity::class.java))
         }
     }
 }
