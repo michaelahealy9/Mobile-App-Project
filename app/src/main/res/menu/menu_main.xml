@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" tools:ignore="ExtraText">
 
     <item
             android:id="@+id/item_add"
-            android:icon="@android:drawable/ic_menu_add"
+            android:icon="@drawable/ic_add_circle_black_24dp"
             android:title="@string/menu_addProduct"
             app:showAsAction="always"/>
 
+//https://developer.android.com/studio/write/vector-asset-studio.html#running
+
     <item
             android:id="@+id/item_home"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/home"
             app:showAsAction="never"/>  //never will always put a menu item in the overflow options menu
 //https://android.jlelse.eu/lessons-in-kotlin-the-toolbar-icons-and-reflection-79e77208367e

@@ -14,7 +14,7 @@ class MainApp : Application(), AnkoLogger {
         super.onCreate()
         products = ProductJSONStore(applicationContext)
         info("Product started")
-       // products.add(ProductModel("Product One", "About product one..."))
+        //products.add(ProductModel("Product One", "About product one..."))
         //products.add(ProductModel("Product Two", "About product two..."))
         //products.add(ProductModel("Product Three", "About product three..."))
     }
