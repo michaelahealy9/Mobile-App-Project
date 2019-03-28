@@ -12,7 +12,7 @@
 
     <item
             android:id="@+id/item_cancel"
-            android:icon="@color/colorPrimary"
+            android:icon="@drawable/ic_backspace_black_24dp"
             android:title="@string/menu_cancelProduct"
             app:showAsAction="always"/>
 </menu>
