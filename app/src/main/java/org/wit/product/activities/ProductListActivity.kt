@@ -3,12 +3,14 @@ package org.wit.product.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_list.*
 import org.jetbrains.anko.intentFor
@@ -18,7 +20,9 @@ import org.wit.product.models.ProductModel
 
 class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener {
     override fun onProductClick(product: ProductModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
+       //Toast.makeText(applicationContext, "HEllo", Toast.LENGTH_LONG).show()
+
     }
 
     lateinit var app: MainApp
@@ -37,12 +41,9 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        //recyclerView.adapter = ProductAdapter(app.products.findAll(),this)
-//        loadProducts()
-
         toolbarMain.title = title
         setSupportActionBar(toolbarMain)
-        getFavouritesFromDatabase()
+        getProductsFromDatabase()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,20 +78,18 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 //        recyclerView.adapter?.notifyDataSetChanged()
 //    }
 
-    fun getFavouritesFromDatabase(){
+    fun getProductsFromDatabase(){
         database!!.reference.child("products").addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (fav in dataSnapshot.children) {
-                        val myFavs = fav.getValue(ProductModel::class.java)
-                         Log.i("FIREBASE", myFavs.toString())
-
-                        productsList!!.add(myFavs!!)
-
+                    productsList!!.clear()
+                    for (prods in dataSnapshot.children) {
+                        val  myProdusts = prods.getValue(ProductModel::class.java)
+                        productsList!!.add(myProdusts!!)
                         layoutManager = LinearLayoutManager(applicationContext)
                         recyclerView.layoutManager = layoutManager
-                        recyclerView.adapter = ProductAdapter(productsList!!,this)
+                        recyclerView.adapter = ProductAdapter(productsList!!, this@ProductListActivity)
                         recyclerView.adapter?.notifyDataSetChanged()
 
                     }

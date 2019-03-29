@@ -11,7 +11,7 @@ import org.wit.product.models.ProductModel
 import org.wit.product.helpers.readImageFromPath
 
 class ProductAdapter (private var products: List<ProductModel>,
-                      private val listener: ValueEventListener
+                      private val listener: ProductListener
 ) : RecyclerView.Adapter<ProductAdapter.MainHolder>() {
 
     interface ProductListener {

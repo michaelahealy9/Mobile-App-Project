@@ -18,9 +18,6 @@ import org.wit.product.helpers.readImage
 import org.wit.product.helpers.readImageFromPath
 import org.wit.product.helpers.showImagePicker
 
-
-
-
 class ProductActivity : AppCompatActivity(), AnkoLogger {
 
     var product = ProductModel()
@@ -68,10 +65,8 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             // app.products.findAll().forEach{info("add Button Pressed:  ${it}")}
             setResult(AppCompatActivity.RESULT_OK)
 
+            saveToFirebase()
 
-            val mFavId = database!!.getReference("Products").push().key
-            myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
-            productsRef!!.child(mFavId!!).setValue(myProducts)
             finish()
         }
 
@@ -122,6 +117,12 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
                 }
             }
         }
+    }
+
+    fun saveToFirebase(){
+        val prods = database!!.getReference("Products").push().key
+        myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
+        productsRef!!.child(prods!!).setValue(myProducts)
     }
 }
 

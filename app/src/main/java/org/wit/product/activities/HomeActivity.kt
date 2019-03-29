@@ -8,14 +8,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import org.wit.product.R
 
 class HomeActivity : AppCompatActivity() {
-
-    val database = FirebaseDatabase.getInstance()
-    val myRef = database.getReference("message")
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        myRef.setValue("Testing Firebase")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         button.setOnClickListener {
