@@ -6,28 +6,43 @@ import android.os.Bundle
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_list.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import org.wit.product.models.ProductModel
 
 class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener {
+    override fun onProductClick(product: ProductModel) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     lateinit var app: MainApp
+    var database: FirebaseDatabase? = null
+    var productsRef: DatabaseReference? = null
+    var productsList: ArrayList<ProductModel>? = null
+    var layoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_list)
         app = application as MainApp
+        database = FirebaseDatabase.getInstance()
+        productsRef = database!!.getReference("products")
+        productsList = ArrayList<ProductModel>()
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         //recyclerView.adapter = ProductAdapter(app.products.findAll(),this)
-        loadProducts()
+//        loadProducts()
 
         toolbarMain.title = title
         setSupportActionBar(toolbarMain)
+        getFavouritesFromDatabase()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -43,23 +58,48 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onProductClick(product: ProductModel){
-        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
-    }
-    //we are passing the selected product to the activity and this is enabled by the parcelable mechanism we just turned on
+//    override fun onProductClick(product: ProductModel){
+//        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
+//    }
+//    //we are passing the selected product to the activity and this is enabled by the parcelable mechanism we just turned on
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        //loadProducts()
+//        super.onActivityResult(requestCode, resultCode, data)
+//    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        loadProducts()
-        super.onActivityResult(requestCode, resultCode, data)
-    }
+//    private fun loadProducts(){
+//        showProducts(app.products.findAll())
+//    }
+//
+//    fun showProducts(products:List<ProductModel>){
+//        recyclerView.adapter = ProductAdapter(products,this)
+//        recyclerView.adapter?.notifyDataSetChanged()
+//    }
 
-    private fun loadProducts(){
-        showProducts(app.products.findAll())
-    }
+    fun getFavouritesFromDatabase(){
+        database!!.reference.child("products").addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (fav in dataSnapshot.children) {
+                        val myFavs = fav.getValue(ProductModel::class.java)
+                         Log.i("FIREBASE", myFavs.toString())
 
-    fun showProducts(products:List<ProductModel>){
-        recyclerView.adapter = ProductAdapter(products,this)
-        recyclerView.adapter?.notifyDataSetChanged()
+                        productsList!!.add(myFavs!!)
+
+                        layoutManager = LinearLayoutManager(applicationContext)
+                        recyclerView.layoutManager = layoutManager
+                        recyclerView.adapter = ProductAdapter(productsList!!,this)
+                        recyclerView.adapter?.notifyDataSetChanged()
+
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                toast("Failed to retrive information from database.").show()
+            }
+        })
     }
 }
 

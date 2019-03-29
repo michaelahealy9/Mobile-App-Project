@@ -4,13 +4,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.card_product.view.*
 import org.wit.product.R
 import org.wit.product.models.ProductModel
 import org.wit.product.helpers.readImageFromPath
 
-class ProductAdapter constructor(private var products: List<ProductModel>,
-                                   private val listener: ProductListener) : RecyclerView.Adapter<ProductAdapter.MainHolder>() {
+class ProductAdapter (private var products: List<ProductModel>,
+                      private val listener: ValueEventListener
+) : RecyclerView.Adapter<ProductAdapter.MainHolder>() {
 
     interface ProductListener {
         fun onProductClick(product: ProductModel)
