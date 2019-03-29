@@ -126,3 +126,6 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     }
 }
 
+
+//https://firebase.google.com/docs/database/android/read-and-write
+

@@ -98,7 +98,11 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
             override fun onCancelled(databaseError: DatabaseError) {
                 toast("Failed to retrive information from database.").show()
             }
-        })
+        }
+        )
     }
 }
 
+
+
+//https://firebase.google.com/docs/database/android/read-and-write
