@@ -76,6 +76,7 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 //    fun showProducts(products:List<ProductModel>){
 //        recyclerView.adapter = ProductAdapter(products,this)
 //        recyclerView.adapter?.notifyDataSetChanged()
+
 //    }
 
     fun getProductsFromDatabase(){
@@ -85,13 +86,12 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
                 if (dataSnapshot.exists()) {
                     productsList!!.clear()
                     for (prods in dataSnapshot.children) {
-                        val  myProdusts = prods.getValue(ProductModel::class.java)
-                        productsList!!.add(myProdusts!!)
+                        val  myProducts = prods.getValue(ProductModel::class.java)
+                        productsList!!.add(myProducts!!)
                         layoutManager = LinearLayoutManager(applicationContext)
                         recyclerView.layoutManager = layoutManager
                         recyclerView.adapter = ProductAdapter(productsList!!, this@ProductListActivity)
                         recyclerView.adapter?.notifyDataSetChanged()
-
                     }
                 }
             }
