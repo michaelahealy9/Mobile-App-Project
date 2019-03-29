@@ -4,11 +4,13 @@
 
     <item
             android:id="@+id/item_add"
-            android:icon="@drawable/ic_add_circle_black_24dp"
+            android:icon="@mipmap/ic_launcher_foreground_plus"
             android:title="@string/menu_addProduct"
             app:showAsAction="always"/>
 
-//https://developer.android.com/studio/write/vector-asset-studio.html#running
+    <!--//https://dev.to/_s_farias/how-to-create-adaptive-icons-for-android-using-android-studio-459h-->
+
+<!--//https://developer.android.com/studio/write/vector-asset-studio.html#running-->
 
 
 
