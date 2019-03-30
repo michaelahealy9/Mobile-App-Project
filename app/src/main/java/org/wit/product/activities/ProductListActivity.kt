@@ -21,7 +21,7 @@ import org.wit.product.models.ProductModel
 class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener {
     override fun onProductClick(product: ProductModel) {
         startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
-       //Toast.makeText(applicationContext, "HEllo", Toast.LENGTH_LONG).show()
+       //Toast.makeText(applicationContext, "Hello", Toast.LENGTH_LONG).show()
 
     }
 
@@ -55,6 +55,7 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         when (item?.itemId) {
             R.id.item_add -> startActivityForResult<ProductActivity>(0)//item add moves to product activity
             R.id.item_home -> startActivityForResult<HomeActivity>(0)
+            R.id.item_contact -> startActivityForResult<ContactActivity>(0)
         }
         return super.onOptionsItemSelected(item)
     }
