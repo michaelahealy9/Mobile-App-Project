@@ -55,7 +55,6 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         when (item?.itemId) {
             R.id.item_add -> startActivityForResult<ProductActivity>(0)//item add moves to product activity
             R.id.item_home -> startActivityForResult<HomeActivity>(0)
-            R.id.item_contact -> startActivityForResult<ContactActivity>(0)
         }
         return super.onOptionsItemSelected(item)
     }

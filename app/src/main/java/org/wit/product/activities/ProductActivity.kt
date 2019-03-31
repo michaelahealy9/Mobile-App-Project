@@ -10,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_product.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
+import org.wit.product.activities.MapsActivity
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import org.wit.product.models.ProductModel
@@ -71,15 +73,21 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
         }
 
 
-        //present toolbar, support it
-        toolbarAdd.title = title
-        setSupportActionBar(toolbarAdd)
 
-        chooseImage.setOnClickListener {
-            showImagePicker(this, IMAGE_REQUEST)
+        productLocation.setOnClickListener {
+            startActivity (intentFor<MapsActivity>())
         }
 
-    }
+            //present toolbar, support it
+            toolbarAdd.title = title
+            setSupportActionBar(toolbarAdd)
+
+            chooseImage.setOnClickListener {
+                showImagePicker(this, IMAGE_REQUEST)
+            }
+        }
+
+
 
     //inflate the menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

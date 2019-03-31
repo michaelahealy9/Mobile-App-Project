@@ -23,8 +23,5 @@
             android:id="@+id/item_product"
             android:title="@string/product"
             app:showAsAction="never"/>
-    <item
-            android:id="@+id/item_contact"
-            android:title="@string/contact"
-            app:showAsAction="never"/>
+
 </menu>

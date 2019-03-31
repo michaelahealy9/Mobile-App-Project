@@ -12,9 +12,9 @@
     <string name="change_product_image">Change Product Image</string>
     <string name="home">Home</string>
     <string name="product">Product</string>
-    <string name="contact">Contact</string>
     <string name="menu_deleteProduct">Delete</string>
     <string name="button_location">Set Location</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

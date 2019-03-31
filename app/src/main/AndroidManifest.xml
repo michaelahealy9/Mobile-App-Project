@@ -3,6 +3,9 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="org.wit.product">
 
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application
             android:name=".main.MainApp"
             android:allowBackup="true"
@@ -12,6 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+
 
         <activity android:name=".activities.HomeActivity">
             <intent-filter>
@@ -24,7 +28,15 @@
         </activity>
         <activity android:name=".activities.ProductListActivity">
         </activity>
-        <activity android:name=".activities.ContactActivity">
+
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyDY7VCHBnRK7Mi5D1yKHAj-4gQhGqImAFQ"/>
+
+        <activity
+                android:name=".activities.MapsActivity"
+                android:label="@string/title_activity_maps">
         </activity>
     </application>
 
