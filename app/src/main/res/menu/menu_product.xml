@@ -5,7 +5,7 @@
     <item
         android:visible="false"
         android:id="@+id/item_delete"
-        android:icon="@mipmap/ic_launcher_foreground_delete"
+        android:icon="@mipmap/ic_launcher_foreground_deletenew"
         android:title="@string/menu_deleteProduct"
         app:showAsAction="always"/>
 

@@ -46,6 +46,9 @@ class ProductJSONStore:ProductStore,AnkoLogger{
             foundProduct.title = product.title
             foundProduct.description = product.description
             foundProduct.image = product.image
+            foundProduct.lat = product.lat
+            foundProduct.lng = product.lng
+            foundProduct.zoom = product.zoom
         }
         serialize()
     }

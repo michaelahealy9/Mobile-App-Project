@@ -13,7 +13,7 @@
     <string name="home">Home</string>
     <string name="product">Product</string>
     <string name="menu_deleteProduct">Delete</string>
-    <string name="button_location">Set Location</string>
+    <string name="product_location">Set Location</string>
     <string name="title_activity_maps">Map</string>
 
 

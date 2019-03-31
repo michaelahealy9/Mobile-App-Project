@@ -91,7 +91,7 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:stateListAnimator="@null"
-                    android:text="@string/button_location"
+                    android:text="@string/product_location"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"/>
             <Button

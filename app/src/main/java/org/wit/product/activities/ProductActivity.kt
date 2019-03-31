@@ -12,7 +12,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import org.wit.product.activities.MapsActivity
+import org.wit.product.models.Location
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import org.wit.product.models.ProductModel
@@ -29,6 +29,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     var database: FirebaseDatabase? = null
     var productsRef: DatabaseReference? = null
     var myProducts: ProductModel? = null
+    val LOCATION_REQUEST = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +76,13 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
 
 
         productLocation.setOnClickListener {
-            startActivity (intentFor<MapsActivity>())
+            val location = Location(52.245696, -7.139102, 15f)
+            if (product.zoom != 0f) {
+                location.lat = product.lat
+                location.lng = product.lng
+                location.zoom = product.zoom
+            }
+            startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
 
             //present toolbar, support it
@@ -122,6 +129,14 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
                 if (intent.hasExtra("product_edit")) {
                     //... as before
                     productImage.setImageBitmap(readImageFromPath(this, product.image))
+                }
+            }
+            LOCATION_REQUEST -> {
+                if (data != null) {
+                    val location = data.extras.getParcelable<Location>("location")
+                    product.lat = location.lat
+                    product.lng = location.lng
+                    product.zoom = location.zoom
                 }
             }
         }

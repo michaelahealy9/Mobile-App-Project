@@ -8,6 +8,12 @@
             android:title="@string/menu_addProduct"
             app:showAsAction="always"/>
 
+    <item
+            android:id="@+id/item_map"
+            android:icon="@mipmap/ic_launcher_background_map"
+            android:title="@string/menu_addProduct"
+            app:showAsAction="always"/>
+
     <!--//https://dev.to/_s_farias/how-to-create-adaptive-icons-for-android-using-android-studio-459h-->
 
 <!--//https://developer.android.com/studio/write/vector-asset-studio.html#running-->
