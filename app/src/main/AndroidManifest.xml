@@ -3,7 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="org.wit.product">
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
@@ -15,7 +14,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-
 
         <activity android:name=".activities.HomeActivity">
             <intent-filter>
@@ -29,7 +27,6 @@
         <activity android:name=".activities.ProductListActivity">
         </activity>
 
-
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyAH-O1jvulg9WppMehkP84XMf-ZnYKTROE"/>
@@ -37,6 +34,12 @@
         <activity
                 android:name=".activities.MapsActivity"
                 android:label="@string/title_activity_maps">
+        </activity>
+
+        <activity
+                android:name=".activities.ProductMapsActivity"
+                android:label="@string/title_activity_product_maps"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

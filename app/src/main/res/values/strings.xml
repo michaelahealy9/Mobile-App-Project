@@ -15,6 +15,8 @@
     <string name="menu_deleteProduct">Delete</string>
     <string name="product_location">Set Location</string>
     <string name="title_activity_maps">Map</string>
+    <!--<string name="title_activity_product_maps">ProductMapsActivity</string>-->
+    <string name="title_activity_product_maps">Map of All Product Stores</string>
 
 
 </resources>

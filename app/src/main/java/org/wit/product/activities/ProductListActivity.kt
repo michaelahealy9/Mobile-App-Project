@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_list.*
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.product.models.ProductModel
@@ -55,6 +56,7 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         when (item?.itemId) {
             R.id.item_add -> startActivityForResult<ProductActivity>(0)//item add moves to product activity
             R.id.item_home -> startActivityForResult<HomeActivity>(0)
+            R.id.item_map -> startActivity<ProductMapsActivity>()
         }
         return super.onOptionsItemSelected(item)
     }
