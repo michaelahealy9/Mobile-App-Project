@@ -66,8 +66,6 @@ class ProductMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
             map.addMarker(options).tag = it.id
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
             map.setOnMarkerClickListener(this)
-
-
         }
     }
 

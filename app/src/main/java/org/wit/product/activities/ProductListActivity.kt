@@ -98,7 +98,7 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                toast("Failed to retrive information from database.").show()
+                toast("Failed to retrieve information from database.").show()
             }
         }
         )

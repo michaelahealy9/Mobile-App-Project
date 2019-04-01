@@ -30,6 +30,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     var productsRef: DatabaseReference? = null
     var myProducts: ProductModel? = null
     val LOCATION_REQUEST = 2
+    val updateProducts:HashMap<String, Any> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,12 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             } else {
                 if (edit) {
                     app.products.update(product.copy())
+                    val prods = database!!.getReference("Products").push().key
+                    myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
+                    if (prods != null) {
+                        updateProducts.put(prods, myProducts!!)
+                        productsRef!!.updateChildren(updateProducts)
+                    }
                 } else {
                     app.products.create(product.copy())
                 }
@@ -67,11 +74,10 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             //app.products.forEach{info("add Button Pressed:${it.title}")}
             // app.products.findAll().forEach{info("add Button Pressed:  ${it}")}
             setResult(AppCompatActivity.RESULT_OK)
-
-            saveToFirebase()
-
             finish()
         }
+
+        saveToFirebase()
 
 
 
