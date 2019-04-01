@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MichaelaHMakeup</string>
+    <string name="app_name">Products</string>
     <string name="button_AddProduct">Add Product</string>
     <string name="hint_productTitle">Product Title</string>
     <string name="hint_productDescription">Product Description</string>
@@ -15,7 +15,6 @@
     <string name="menu_deleteProduct">Delete</string>
     <string name="product_location">Set Location</string>
     <string name="title_activity_maps">Map</string>
-    <!--<string name="title_activity_product_maps">ProductMapsActivity</string>-->
     <string name="title_activity_product_maps">Map of All Product Stores</string>
 
 

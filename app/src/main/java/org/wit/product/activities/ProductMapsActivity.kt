@@ -72,7 +72,7 @@ class ProductMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        currentTitle.text = marker.title
+        productTitle.text = marker.title
         return false
     }
 }
