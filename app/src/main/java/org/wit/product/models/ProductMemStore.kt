@@ -3,12 +3,6 @@ package org.wit.product.models
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-var lastId = 0L
-
-internal fun  getId(): Long{
-    return lastId++
-}
-
 
 class ProductMemStore:ProductStore, AnkoLogger {
 
@@ -19,7 +13,6 @@ class ProductMemStore:ProductStore, AnkoLogger {
     }
 
     override fun create(product: ProductModel) {
-        product.id=getId()
         products.add(product)
         logAll()
     }

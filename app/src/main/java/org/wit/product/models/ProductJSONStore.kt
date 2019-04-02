@@ -13,10 +13,6 @@ val gsonBuilder = GsonBuilder().setPrettyPrinting().create()
 val listType = object : TypeToken<java.util.ArrayList<ProductModel>>() {}.type
 
 
-fun generateRandomId():Long{
-    return Random().nextLong()
-}
-
 class ProductJSONStore:ProductStore,AnkoLogger{
     val context : Context
     var products = mutableListOf<ProductModel>()
@@ -33,7 +29,7 @@ class ProductJSONStore:ProductStore,AnkoLogger{
     }
 
     override fun create(product: ProductModel) {
-        product.id = generateRandomId()
+
         products.add(product)
         serialize()
     }

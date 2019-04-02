@@ -8,6 +8,8 @@ import org.wit.product.R
 import org.wit.product.main.MainApp
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -18,19 +20,22 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.product.models.ProductModel
+import java.text.FieldPosition
 
 class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener {
     override fun onProductClick(product: ProductModel) {
-        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
-       //Toast.makeText(applicationContext, "Hello", Toast.LENGTH_LONG).show()
-
+        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit", product),0)
     }
 
     lateinit var app: MainApp
     var database: FirebaseDatabase? = null
     var productsRef: DatabaseReference? = null
-    var productsList: ArrayList<ProductModel>? = null
+
     var layoutManager: RecyclerView.LayoutManager? = null
+    var productAdapter:ProductAdapter? = null
+    var position: Int?= null
+    var args: Bundle = Bundle()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +43,34 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         app = application as MainApp
         database = FirebaseDatabase.getInstance()
         productsRef = database!!.getReference("products")
-        productsList = ArrayList<ProductModel>()
+        MainApp.productsList = ArrayList<ProductModel>()
+        position = args.getInt("Position")
+        Log.i("POS", position.toString())
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         toolbarMain.title = title
         setSupportActionBar(toolbarMain)
         getProductsFromDatabase()
+        search.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(search: Editable?) {
+                searchRecyclerView(search.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,46 +80,31 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.item_add -> startActivityForResult<ProductActivity>(0)//item add moves to product activity
+            R.id.item_add -> startActivityForResult<ProductActivity>(200)//item add moves to product activity
             R.id.item_home -> startActivityForResult<HomeActivity>(0)
             R.id.item_map -> startActivity<ProductMapsActivity>()
         }
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onProductClick(product: ProductModel){
-//        startActivityForResult(intentFor<ProductActivity>().putExtra("product_edit",product),0)
-//    }
-//    //we are passing the selected product to the activity and this is enabled by the parcelable mechanism we just turned on
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        //loadProducts()
-//        super.onActivityResult(requestCode, resultCode, data)
-//    }
-
-//    private fun loadProducts(){
-//        showProducts(app.products.findAll())
-//    }
-//
-//    fun showProducts(products:List<ProductModel>){
-//        recyclerView.adapter = ProductAdapter(products,this)
-//        recyclerView.adapter?.notifyDataSetChanged()
-
-//    }
-
     fun getProductsFromDatabase(){
         database!!.reference.child("products").addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    productsList!!.clear()
+                    MainApp.productsList!!.clear()
                     for (prods in dataSnapshot.children) {
                         val  myProducts = prods.getValue(ProductModel::class.java)
-                        productsList!!.add(myProducts!!)
+                        Log.i("KEYS", prods.key)
+                        MainApp.productsList!!.add(myProducts!!)
                         layoutManager = LinearLayoutManager(applicationContext)
                         recyclerView.layoutManager = layoutManager
-                        recyclerView.adapter = ProductAdapter(productsList!!, this@ProductListActivity)
+                        productAdapter = ProductAdapter(MainApp.productsList!!, this@ProductListActivity)
+                        recyclerView.adapter = productAdapter
                         recyclerView.adapter?.notifyDataSetChanged()
+
+
+
                     }
                 }
             }
@@ -103,7 +114,20 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         }
         )
     }
+
+    fun searchRecyclerView(search: String){
+        var productListNew: ArrayList<ProductModel> = ArrayList()
+        for (searchProduct in MainApp.productsList!!){
+            if (searchProduct.title.toLowerCase().contains(search.toLowerCase())){
+                productListNew.add(searchProduct)
+                productAdapter!!.filterList(productListNew)
+            }
+        }
+    }
 }
+
+
+
 
 
 

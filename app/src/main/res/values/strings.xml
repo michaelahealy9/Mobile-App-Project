@@ -16,6 +16,7 @@
     <string name="product_location">Set Location</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_product_maps">Map of All Product Stores</string>
+    <string name="update_btn">Update</string>
 
 
 </resources>

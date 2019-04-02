@@ -1,6 +1,8 @@
 package org.wit.product.activities
 
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,9 @@ class ProductAdapter (private var products: List<ProductModel>,
         fun onProductClick(product: ProductModel)
     }
 
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_product, parent, false))
     }
@@ -26,26 +31,32 @@ class ProductAdapter (private var products: List<ProductModel>,
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val product = products[holder.adapterPosition]
         holder.bind(product, listener)
+
+    }
+
+    fun filterList(filteredProductList: ArrayList<ProductModel>){
+        this.products= filteredProductList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = products.size
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var deleteItem = itemView.findViewById<Button>(R.id.deleteBtn)
+        var args = Bundle()
         fun bind(product: ProductModel,  listener : ProductListener) {
             itemView.productTitle.text = product.title
             itemView.description.text = product.description
-            deleteItem.setOnClickListener(){
-
-            }
             itemView.imageIcon.setImageBitmap(
                 readImageFromPath(
                     itemView.context,
                     product.image
                 )
             )
-            itemView.setOnClickListener { listener.onProductClick(product) }
+
+
+            itemView.setOnClickListener { listener.onProductClick(product)
+                Log.i("POS 101", adapterPosition.toString())
+                args.putInt("Position", adapterPosition)}
         }
     }
 }

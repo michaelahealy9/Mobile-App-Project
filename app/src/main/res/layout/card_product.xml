@@ -42,14 +42,7 @@
                 android:layout_toRightOf="@+id/imageIcon"
                 app:layout_constraintStart_toStartOf="@+id/productTitle"
                 app:layout_constraintTop_toBottomOf="@+id/productTitle" android:layout_marginTop="8dp"/>
-        <Button
-                android:id="@+id/deleteBtn"
-                android:icon="@mipmap/ic_launcher_foreground_deletenew"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp" app:layout_constraintBottom_toBottomOf="parent"
-                android:text="Delete"/>
+
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

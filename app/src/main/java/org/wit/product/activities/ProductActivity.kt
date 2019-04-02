@@ -1,24 +1,38 @@
 package org.wit.product.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_product.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.wit.product.models.Location
-import org.wit.product.R
 import org.wit.product.main.MainApp
 import org.wit.product.models.ProductModel
 import org.wit.product.helpers.readImage
 import org.wit.product.helpers.readImageFromPath
 import org.wit.product.helpers.showImagePicker
+import java.io.File
+import android.support.annotation.NonNull
+import com.google.android.gms.tasks.OnFailureListener
+import org.wit.product.R
+import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class ProductActivity : AppCompatActivity(), AnkoLogger {
 
@@ -30,7 +44,8 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     var productsRef: DatabaseReference? = null
     var myProducts: ProductModel? = null
     val LOCATION_REQUEST = 2
-    val updateProducts:HashMap<String, Any> = HashMap()
+    var position: Int?= null
+    var args: Bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +53,17 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
         app = application as MainApp
         database = FirebaseDatabase.getInstance()
         productsRef = database!!.getReference("products")
+        position = args.getInt("Position")
+        Log.i("POS", position.toString())
+
 
 
         if (intent.hasExtra("product_edit")) {
             edit = true
+            if(edit){
+                btnAdd.visibility = View.GONE
+                btnUpdate.visibility = View.VISIBLE
+            }
             product = intent.extras.getParcelable<ProductModel>("product_edit")
             productTitle.setText(product.title)
             description.setText(product.description)
@@ -52,53 +74,49 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             btnAdd.setText(R.string.save_product)
         }
 
-        btnAdd.setOnClickListener() {
+        btnAdd.setOnClickListener {
             product.title = productTitle.text.toString()
             product.description = description.text.toString()
-            if (product.title.isEmpty()) {
+            if (!product.title.isEmpty()) {
+                saveToFirebase()
+            }else{
                 toast(R.string.enter_product_title)
-            } else {
-                if (edit) {
-                    app.products.update(product.copy())
-                    val prods = database!!.getReference("Products").push().key
-                    myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
-                    if (prods != null) {
-                        updateProducts.put(prods, myProducts!!)
-                        productsRef!!.updateChildren(updateProducts)
-                    }
-                } else {
-                    app.products.create(product.copy())
-                }
             }
             info("add Button Pressed: $productTitle")
-            //app.products.forEach{info("add Button Pressed:${it.title}")}
-            // app.products.findAll().forEach{info("add Button Pressed:  ${it}")}
             setResult(AppCompatActivity.RESULT_OK)
             finish()
         }
 
-        saveToFirebase()
+        btnUpdate.setOnClickListener {
+            if (edit) {
+                app.products.update(product.copy())
+                myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
+                database!!.reference.child("products").child(product.id).setValue(myProducts)
+                finish()
+            }
+        }
 
 
 
         productLocation.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            if (product.zoom != 0f) {
-                location.lat = product.lat
-                location.lng = product.lng
+            val location = Location()
+                Log.i("Locaton Product", location.lat.toString() + location.lng.toString())
+                MainApp.productsList!!.get(0).lat = location.lat
+                MainApp.productsList!!.get(0).lng = location.lng
                 location.zoom = product.zoom
-            }
+
+                Log.i("Locaton Product", "${MainApp.productsList!!.get(0).lat.toString()}")
+
             startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
+        //present toolbar, support it
+        toolbarAdd.title = title
+        setSupportActionBar(toolbarAdd)
 
-            //present toolbar, support it
-            toolbarAdd.title = title
-            setSupportActionBar(toolbarAdd)
-
-            chooseImage.setOnClickListener {
-                showImagePicker(this, IMAGE_REQUEST)
-            }
+        chooseImage.setOnClickListener {
+            showImagePicker(this, IMAGE_REQUEST)
         }
+    }
 
 
 
@@ -113,7 +131,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.item_delete -> {
-                app.products.delete(product)
+                deleteProduct(product.id)
                 finish()
             }
             R.id.item_cancel->{
@@ -140,8 +158,8 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             LOCATION_REQUEST -> {
                 if (data != null) {
                     val location = data.extras.getParcelable<Location>("location")
-                    product.lat = location.lat
-                    product.lng = location.lng
+                    MainApp.productsList!!.get(0).lat = location.lat
+                    MainApp.productsList!!.get(0).lng = location.lng
                     product.zoom = location.zoom
                 }
             }
@@ -149,12 +167,25 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     }
 
     fun saveToFirebase(){
-        val prods = database!!.getReference("Products").push().key
-        myProducts = ProductModel(product.id, productTitle.text.toString(), description.text.toString(), product.image)
+
+        val prods = database!!.getReference("products").push().key
+        myProducts = ProductModel(prods!!, productTitle.text.toString(), description.text.toString(), product.image)
         productsRef!!.child(prods!!).setValue(myProducts)
     }
+
+
+    fun deleteProduct(key:String){
+        productsRef!!.child(key).removeValue()
+    }
+
+
 }
 
 
 //https://firebase.google.com/docs/database/android/read-and-write
 
+
+
+
+//https://firebase.google.com/docs/database/android/read-and-write
+//https://stackoverflow.com/questions/36223373/firebase-updatechildren-vs-setvalue
