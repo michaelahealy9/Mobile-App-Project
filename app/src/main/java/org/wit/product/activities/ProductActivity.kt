@@ -100,12 +100,12 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
 
         productLocation.setOnClickListener {
             val location = Location()
-                Log.i("Locaton Product", location.lat.toString() + location.lng.toString())
-                MainApp.productsList!!.get(0).lat = location.lat
-                MainApp.productsList!!.get(0).lng = location.lng
-                location.zoom = product.zoom
+            Log.i("Locaton Product", location.lat.toString() + location.lng.toString())
+            MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lat = location.lat
+            MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lng = location.lng
+            location.zoom = 12.0f
 
-                Log.i("Locaton Product", "${MainApp.productsList!!.get(0).lat.toString()}")
+            Log.i("Locaton Product", "${MainApp.productsList!!.get(0).lat.toString()}")
 
             startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
@@ -158,8 +158,8 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
             LOCATION_REQUEST -> {
                 if (data != null) {
                     val location = data.extras.getParcelable<Location>("location")
-                    MainApp.productsList!!.get(0).lat = location.lat
-                    MainApp.productsList!!.get(0).lng = location.lng
+                    MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lat = location.lat
+                    MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lng = location.lng
                     product.zoom = location.zoom
                 }
             }
@@ -169,7 +169,9 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
     fun saveToFirebase(){
 
         val prods = database!!.getReference("products").push().key
-        myProducts = ProductModel(prods!!, productTitle.text.toString(), description.text.toString(), product.image)
+        myProducts = ProductModel(prods!!, productTitle.text.toString(), description.text.toString(), product.image,
+            MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lat,
+            MainApp.productsList!!.get(ProductAdapter.MainHolder.getPosition).lng)
         productsRef!!.child(prods!!).setValue(myProducts)
     }
 

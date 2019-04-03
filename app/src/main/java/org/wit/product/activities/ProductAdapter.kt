@@ -21,9 +21,6 @@ class ProductAdapter (private var products: List<ProductModel>,
         fun onProductClick(product: ProductModel)
     }
 
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_product, parent, false))
     }
@@ -55,8 +52,13 @@ class ProductAdapter (private var products: List<ProductModel>,
 
 
             itemView.setOnClickListener { listener.onProductClick(product)
-                Log.i("POS 101", adapterPosition.toString())
-                args.putInt("Position", adapterPosition)}
+                getPosition = adapterPosition}
         }
+
+        companion object {
+            var getPosition: Int = 0
+        }
+
+        //https://medium.com/@ansujain/kotlin-how-to-create-static-members-for-class-543d0f126f7c
     }
 }
