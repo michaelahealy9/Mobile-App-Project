@@ -42,8 +42,8 @@ Link to repository on GitHub
 
 
 
-##References
-[https://www.youtube.com/watch?v=1Iha4zGLyU](https://www.youtube.com/watch?v=1Iha4zGLyU0)
+## References
+(https://www.youtube.com/watch?v=1Iha4zGLyU0)
 https://codinginflow.com/tutorials/android/videoview
 https://stackoverflow.com/questions/45267041/not-enough-information-to-infer-parameter-t-with-kotlin-and-android
 https://firebase.google.com/docs/database/android/start
