@@ -13,6 +13,10 @@ import org.wit.product.R
 import org.wit.product.models.ProductModel
 import org.wit.product.helpers.readImageFromPath
 
+
+
+// adapter binds all info from my product model to the recycler view
+
 class ProductAdapter (private var products: List<ProductModel>,
                       private val listener: ProductListener
 ) : RecyclerView.Adapter<ProductAdapter.MainHolder>() {
@@ -58,7 +62,8 @@ class ProductAdapter (private var products: List<ProductModel>,
         companion object {
             var getPosition: Int = 0
         }
-
-        //https://medium.com/@ansujain/kotlin-how-to-create-static-members-for-class-543d0f126f7c
     }
 }
+
+//https://medium.com/@ansujain/kotlin-how-to-create-static-members-for-class-543d0f126f7c
+//https://android.jlelse.eu/filterable-recyclerview-in-android-the-how-to-a9ade9cd26

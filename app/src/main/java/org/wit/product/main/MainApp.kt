@@ -22,8 +22,8 @@ class MainApp : Application(), AnkoLogger {
     }
 
     //Make static calls
-    companion object {
+    companion object { //list can be called anywhere
         var productsList: ArrayList<ProductModel>? = null
-        var markerList:ArrayList<ProductModel>? = null
+
     }
 }

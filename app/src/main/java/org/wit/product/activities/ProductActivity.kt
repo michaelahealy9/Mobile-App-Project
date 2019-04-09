@@ -97,7 +97,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
         }
 
 
-
+//getting the adapter position for the products
         productLocation.setOnClickListener {
             val location = Location()
             Log.i("Locaton Product", location.lat.toString() + location.lng.toString())
@@ -166,6 +166,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
+    //saving to firebase
     fun saveToFirebase(){
 
         val prods = database!!.getReference("products").push().key
@@ -175,7 +176,7 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
         productsRef!!.child(prods!!).setValue(myProducts)
     }
 
-
+//deleting the product from firebase using child and the key
     fun deleteProduct(key:String){
         productsRef!!.child(key).removeValue()
     }
@@ -185,9 +186,5 @@ class ProductActivity : AppCompatActivity(), AnkoLogger {
 
 
 //https://firebase.google.com/docs/database/android/read-and-write
-
-
-
-
 //https://firebase.google.com/docs/database/android/read-and-write
 //https://stackoverflow.com/questions/36223373/firebase-updatechildren-vs-setvalue

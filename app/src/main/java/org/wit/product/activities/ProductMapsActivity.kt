@@ -103,4 +103,4 @@ class ProductMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
 }
 
 
-//fun configure map will iterate through all the products stoes and add a marker at the location of each of them
+//fun configure map will iterate through all the products and add a marker at the location of each of them

@@ -1,18 +1,14 @@
 package org.wit.product.activities
 
-import android.content.Intent
+
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import org.wit.product.R
 import org.wit.product.main.MainApp
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_product_list.*
 import org.jetbrains.anko.intentFor
@@ -20,7 +16,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.product.models.ProductModel
-import java.text.FieldPosition
+
 
 class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener {
     override fun onProductClick(product: ProductModel) {
@@ -55,19 +51,6 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         searchBtn.setOnClickListener{
             searchRecyclerView(search.text.toString())
         }
-//        search.addTextChangedListener(object: TextWatcher{
-//            override fun afterTextChanged(search: Editable?) {
-//                searchRecyclerView(search.toString())
-//            }
-//
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//        })
     }
 
     override fun onResume() {
@@ -90,12 +73,13 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         return super.onOptionsItemSelected(item)
     }
 
+    //get data from database and add them to list to populate recyclerview
     fun getProductsFromDatabase(){
         database!!.reference.child("products").addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    MainApp.productsList!!.clear()
+                    MainApp.productsList!!.clear() //clear because if not the data will be duplicated
                     for (prods in dataSnapshot.children) {
                         val  myProducts = prods.getValue(ProductModel::class.java)
                         Log.i("KEYS", prods.key)
@@ -117,7 +101,7 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
         }
         )
     }
-
+    //search for product when search button is clicked
     fun searchRecyclerView(search: String){
         var productListNew: ArrayList<ProductModel> = ArrayList()
         for (searchProduct in MainApp.productsList!!){
@@ -130,8 +114,5 @@ class ProductListActivity : AppCompatActivity(), ProductAdapter.ProductListener 
 }
 
 
-
-
-
-
+//https://stackoverflow.com/questions/28296708/get-clicked-item-and-its-position-in-recyclerview
 //https://firebase.google.com/docs/database/android/read-and-write

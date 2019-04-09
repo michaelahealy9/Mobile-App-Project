@@ -16,10 +16,15 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(org.wit.product.R.layout.activity_home)
 
+        //val variables are read only and can not be changed
+//getting the video path
         val videoView = findViewById(org.wit.product.R.id.video_view) as VideoView
         val videoPath = "android.resource://" + packageName + "/" + org.wit.product.R.raw.video;
         val uri = Uri.parse(videoPath)
         videoView.setVideoURI(uri)
+
+
+        //play button for the video
 
         val playButton = findViewById(org.wit.product.R.id.play_button) as Button
         playButton.setOnClickListener { videoView.start() }
@@ -33,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
 
 
 }
-
+//References
 //https://firebase.google.com/docs/database/android/start
 //https://stackoverflow.com/questions/45267041/not-enough-information-to-infer-parameter-t-with-kotlin-and-android
 //https://codinginflow.com/tutorials/android/videoview

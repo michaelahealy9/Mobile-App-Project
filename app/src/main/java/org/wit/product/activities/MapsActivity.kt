@@ -1,7 +1,6 @@
 package org.wit.product.activities
 
 import android.app.Activity
-import android.app.Activity.*
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -21,7 +20,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     private lateinit var map: GoogleMap
     var location = Location()
-
+//var variables are mutable and can be changed
+    //lateinit means the varibale will be initiased later on
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
